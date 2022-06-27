@@ -10,7 +10,9 @@ package v1;
 // 定义DeviceManagerService服务
 service DeviceManagerService {
   // 定义MapperRegister方法，接受MapperRegister消息， 并返回MapperRegister消息
-  rpc MapperRegister (MapperRegisterRequest) returns (MapperRegisterReply) {}
+  rpc MapperRegister(MapperRegisterRequest) returns (MapperRegisterResponse) {}
+
+  rpc ReportDeviceStatus(ReportDeviceStatusRequest) returns (ReportDeviceStatusResponse) {}
 }
 
 // 定义MapperRegisterRequest消息
@@ -19,8 +21,8 @@ message MapperRegisterRequest {
   MapperInfo mapper = 1;
 }
 
-// 定义MapperRegisterReply消息
-message MapperRegisterReply {}
+// 定义MapperRegisterResponse消息
+message MapperRegisterResponse {}
 
 message MapperInfo {
   string name = 1;
@@ -31,3 +33,25 @@ message MapperInfo {
   string state = 6;
 }
 
+message ReportDeviceStatusRequest {
+    string deviceName = 1;
+    DeviceStatus reportedDevice = 2;
+}
+
+message DeviceStatus {
+    repeated Twin twins = 1;
+    string state = 2;
+}
+
+message Twin {
+    string propertyName = 1;
+    TwinProperty desired = 2;
+    TwinProperty reported = 3;
+}
+
+message TwinProperty {
+    string value = 1;
+    map<string,string> metadata = 2;
+}
+
+message ReportDeviceStatusResponse {}

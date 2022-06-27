@@ -53,4 +53,30 @@ func main() {
 
 	// 打印服务的返回的消息
 	log.Printf("Greetings: %s", "test success")
+
+	// 调用SayHello接口，发送一条消息
+	
+	_, err = c.ReportDeviceStatus(ctx, &pb.ReportDeviceStatusRequest{
+		DeviceName:     "device-1",
+		ReportedDevice: &pb.DeviceStatus{
+			Twins: []*pb.Twin{&pb.Twin{
+				PropertyName: "temperature",
+				Desired:      &pb.TwinProperty{
+					Value:    "27",
+					Metadata: nil,
+				},
+				Reported:     &pb.TwinProperty{
+					Value:    "30",
+					Metadata: nil,
+				},
+			}},
+			State: "online",
+		},
+	})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+
+	// 打印服务的返回的消息
+	log.Printf("Greetings: %s", "test success")
 }

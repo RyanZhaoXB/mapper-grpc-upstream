@@ -14,12 +14,18 @@ import (
 
 type server struct{}
 
-func (s *server) MapperRegister(ctx context.Context, in *pb.MapperRegisterRequest) (*pb.MapperRegisterReply, error) {
+func (s *server) MapperRegister(ctx context.Context, in *pb.MapperRegisterRequest) (*pb.MapperRegisterResponse, error) {
 	fmt.Printf("mapperinfo: %+v\n", in.Mapper)
-	return &pb.MapperRegisterReply{}, nil
+	return &pb.MapperRegisterResponse{}, nil
+}
+
+func (s *server) ReportDeviceStatus(ctx context.Context, in *pb.ReportDeviceStatusRequest) (*pb.ReportDeviceStatusResponse, error) {
+	fmt.Printf("ReportDeviceStatus: %+v\n%+v\n", in.DeviceName, in.ReportedDevice)
+	return &pb.ReportDeviceStatusResponse{}, nil
 }
 
 func main() {
+
 	lis, err := net.Listen("unix", "/tmp/a.sock")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
